@@ -1,0 +1,3 @@
+#!/bin/sh
+sudo evemu-event /dev/input/event18 --type EV_KEY --code BTN_RIGHT --value 1 --sync
+sudo evemu-event /dev/input/event18 --type EV_KEY --code BTN_RIGHT --value 0 --sync

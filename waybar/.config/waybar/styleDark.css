@@ -1,0 +1,87 @@
+* {
+    border: none;
+    border-radius: 0;
+    font-family: SF Pro Display, Noto Sans, Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+window#waybar {
+    background: rgba(31, 36, 47, 0.55);
+    border-bottom: 1px solid rgba(24, 29, 42, 0.65);
+    color: #cfd6e6;
+}
+
+#workspaces {
+    margin-left: 8px;
+    margin-right: 16px;
+}
+
+#workspaces button {
+    margin: 1px 0 1px 8px;
+    padding: 0px 1px 0px 1px;
+    color: rgba(207, 214, 230, 0.5);
+}
+
+
+#workspaces button.focused {
+    color: rgba(207, 214, 230, 1);
+}
+
+#workspaces button:hover {
+    background: transparent;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+#mode {
+    margin: 1px 0 1px 0;
+    text-shadow: 0 0 2px #5288e2;
+}
+
+#clock, #battery, #cpu, #memory, #network, #pulseaudio, #custom-vpn, #tray, #mode {
+    margin: 0px 16px 0px 0px;
+    border-bottom: 1px solid transparent;
+}
+
+#clock {
+    margin-right: 20px;
+}
+
+#custom-vpn, #mode, #pulseaudio, #network, #battery, #clock {
+    border-top: 2px solid transparent;
+}
+
+#pulseaudio {
+    margin-left: 16px;
+}
+
+#battery.critical {
+    color: #e06c75;
+}
+#battery.charging {
+    color: #5288e2;
+}
+#battery.full {
+    margin: 0px 0px 0px 0px;
+}
+
+#custom-vpn.off {
+    color: rgba(75, 81, 98, 0.73);
+}
+
+/*#network {
+    border-top: 1px solid transparent;
+}*/
+#network.disconnected {
+    /*margin: 0px 0px 0px 0px;*/
+    color: rgba(75, 81, 98, 0.73);
+}
+
+
+#pulseaudio.muted {
+    /*margin: 0px 0px 0px 0px;
+    color: rgba(75, 81, 98, 0);*/
+    color: rgba(75, 81, 98, 0.73);
+}
+

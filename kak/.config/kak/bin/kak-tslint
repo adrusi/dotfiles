@@ -1,0 +1,2 @@
+#!/bin/sh
+npx tslint --config tslint.json --format json "$@" | jq -r '.[] | [.name, ":", .startPosition.line + 1, ":", .startPosition.character + 1, ": ", .ruleSeverity, ": ", .failure] | map(tostring) | add'

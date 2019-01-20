@@ -1,0 +1,40 @@
+input "1739:0:Synaptics_TM2722-001" {
+    accel_profile adaptive
+    click_method clickfinger
+    drag disabled
+    drag_lock disabled
+    dwt disabled
+    events enabled
+    left_handed disabled
+    middle_emulation enabled
+    natural_scroll enabled
+    pointer_accel 0.25
+    scroll_method two_finger
+    tap disabled
+}
+
+input "2:7:SynPS/2_Synaptics_TouchPad" {
+    accel_profile adaptive
+    click_method clickfinger
+    drag disabled
+    drag_lock disabled
+    dwt disabled
+    events enabled
+    left_handed disabled
+    middle_emulation enabled
+    natural_scroll enabled
+    pointer_accel 0.25
+    scroll_method two_finger
+    tap disabled
+}
+
+output HDMI-A-1 pos 0 0 res 1920x1080
+output eDP-1 pos 0 1080 res 1920x1080
+
+# I prefer XF86AudioMicMute but the binding to modifier+multimedia_key is broken
+# in sway 1.0-beta2
+set $media_pause $mod+p
+
+# For this to work, the sudoers file must allow the user to run
+# /usr/bin/evemu-event without a password
+bindsym Control_R exec emulate-right-click

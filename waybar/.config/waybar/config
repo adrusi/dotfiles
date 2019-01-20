@@ -1,0 +1,54 @@
+{
+    "layer": "top", // Waybar at top layer
+    "height": 23, // Waybar height
+    "modules-left": ["sway/workspaces"],
+    "modules-center": ["sway/mode"],
+    "modules-right": ["pulseaudio", "custom/vpn", "network", "battery", "clock"],
+    "sway/mode": {
+        "format": "{}"
+    },
+    "sway/window": {
+        "max-length": 100
+    },
+    "clock": {
+        "format": "{:%a %-d %h %-H:%M}"
+    },
+    "cpu": {
+        "format": "{}% "
+    },
+    "memory": {
+        "format": "{}% "
+    },
+    "battery": {
+        "states": {
+            "critical": 10
+        },
+        "format": "{capacity}%  {icon}",
+        "format-full": "",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "network": {
+        "format-wifi": "{essid}  ",
+        "format-ethernet": "{ifname}  ",
+        "format-disconnected": ""
+    },
+    "custom/vpn": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "waybar-vpn"
+    },
+    "pulseaudio": {
+        "format": "{volume}%  {icon}",
+        "format-bluetooth": "{volume}%  {icon}",
+        "format-muted": "{volume}%  {icon}",
+        "format-icons": {
+            "headphones": "",
+            "handsfree": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["","", ""]
+        }
+    }
+}

@@ -1,0 +1,14 @@
+#!/bin/sh
+stack=/tmp/mpvplayback
+
+while [ -s $stack ]; do
+	line="$(tail -n1 $stack)"
+	head -n -1 $stack > $stack.tmp && mv $stack.tmp $stack
+	anyexist=false
+	for sock in $line; do
+		[ -S "$sock" ] || continue
+		anyexist=true
+		echo '{ "command": ["set_property", "pause", false] }' | socat - "$sock" > /dev/null
+	done
+	[ $anyexist == true ] && break
+done

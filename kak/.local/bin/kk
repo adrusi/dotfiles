@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# cd to project root or give up and just execute kak unfancily
+original_pwd="$PWD"
+while true; do
+    [ -f project.kak ] && break
+    [ "$PWD" = "$HOME" ] || [ "$PWD" = / ] && cd "$original_pwd" && exec kak "$@"
+    cd ..
+done
+
+
+sess="$(basename "$PWD")"
+# start the project daemon if it doesn't exist
+kak -l | grep -F "$sess" >/dev/null || kak -d -s "$sess" -E "source project.kak"
+exec kak -c "$sess" "$@"

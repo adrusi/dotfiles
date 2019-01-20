@@ -1,0 +1,14 @@
+set $mod Mod4
+
+set $left h
+set $down j
+set $up k
+set $right l
+
+set $term st
+set $browser firefox about:newtab
+set $privatebrowser firefox --private-window about:newtab
+
+# Note: it's recommended that you pass the final command to sway
+# set $menu dmenu_path | dmenu | xargs swaymsg exec
+set $menu rofi -show run

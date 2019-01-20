@@ -1,0 +1,17 @@
+#!/bin/sh
+npx tslint --config tslint.json --format json "$@" | jq '
+    map({
+        "file": .name,
+        "start_line": (.startPosition.line + 1),
+        "end_line": (.endPosition.line + 1),
+        "start_col": (.startPosition.character + 1),
+        "end_col": (.endPosition.character + 1),
+        "kind": .ruleSeverity,
+        "msg": .failure,
+        "fix": (if .fix then (.fix | map({
+            "start": .innerStart,
+            "length": .innerLength,
+            "text": .innerText
+        })) else null end)
+    }) | .[]
+' 2>> /tmp/err

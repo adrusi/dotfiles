@@ -1,0 +1,4 @@
+ssh/.ssh/id_rsa
+ssh/.ssh/work_rsa
+kak/.config/kak/plugins/*
+mpv/.config/mpv/watch_later

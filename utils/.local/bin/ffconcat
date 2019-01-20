@@ -1,0 +1,116 @@
+#!/bin/bash
+
+# FFconcat
+# Copyright (c) 2019 Adrian Sinclair
+#
+# FFconcat is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+#
+# FFconcat is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with FFconcat; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+
+program="$(basename "$0")"
+
+function show_usage {
+    cat <<EOF
+Usage: $program [OPTION]... [INPUT]...
+
+Concatenate media files using ffmpeg.
+
+  -h, --help           show this message
+  -o, --output=FILE    output to FILE (default: stdout)
+  -f, --format=FORMAT  select output format (inferred from filename by default;
+                       see \`ffmpeg -formats\`)
+EOF
+    exit
+}
+
+# Parse arguments
+inputs=()
+output=/dev/stdout
+format=""
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+    -o|--output)
+        shift
+        [ $# = 0 ] && show_usage
+        output="$1"
+        ;;
+    --output=*)
+        output="${1#*=}"
+        ;;
+    -f|--format)
+        shift
+        [ $# = 0 ] && show_usage
+        format="$1"
+        ;;
+    --format=*)
+        format="${1#*=}"
+        ;;
+    -h|--help)
+        show_usage
+        ;;
+    --)
+        shift
+        inputs+=("$@")
+        break
+        ;;
+    *)
+        inputs+=("$1")
+    esac
+
+    shift
+done
+
+# Handle '-' passed as filename
+for i in $(seq "${#inputs[@]}"); do
+    [ "${inputs[i]}" = "-" ] && inputs[i]=/dev/stdin
+done
+[ "$output" = "-" ] && output=/dev/stdout
+
+# Ensure format specified is valid
+formats=()
+function get_formats {
+    [ "${#formats[@]}" != 0 ] && return
+    while IFS= read -r f; do
+        formats+=("$f")
+    done < <(ffmpeg -formats | awk '/^ .E/ { print $2 }')
+}
+function valid_format {
+    get_formats
+    for f in "${formats[@]}"; do
+        [ "$f" = "$1" ] && return 0
+    done
+    return 1
+}
+
+if [ -n "$format" ] && ! valid_format "$format"; then
+    printf '[%s] Invalid format: %s\n' "$program" "$1" >&2
+    exit 1
+done
+
+# Ensure format was specified if writing to stdout
+if [ "$output" = /dev/stdout ] && [ -z "$format" ]; then
+    printf '[%s] Must specify format when outputting to stdout\n' "$program" >&2
+    exit 1
+fi
+
+# ffmpeg -f concat works best with absolute paths
+function abs_path {
+  ( cd "$(dirname "$1")" &>/dev/null && printf "%s/%s" "$PWD" "$(basename "$1")" )
+}
+
+exec ffmpeg -f concat -safe 0 -i <(
+    for f in "${inputs[@]}"; do
+        printf "file '%s'\n" "$(abs_path "$f")"
+    done
+) -- "$output"

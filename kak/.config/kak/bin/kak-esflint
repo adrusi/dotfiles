@@ -1,0 +1,22 @@
+#!/bin/sh
+if [ "$1" = --project-dir ]; then
+    cd "$2"
+    shift; shift
+fi
+
+npx eslint --config .eslintrc --format json "$@" | jq '
+    map(.filePath as $file | .messages | map(.file = $file) | .[] | {
+        "file": .file,
+        "start_line": .line,
+        "start_col": .column,
+        "end_line": (.endLine // .line),
+        "end_col": (.endColumn // .column),
+        "kind": ["warning", "error"][.severity - 1],
+        "msg": .message,
+        "fix": (if .fix then [{
+            "start": .fix.range[0],
+            "length": (.fix.range[1] - .fix.range[0]),
+            "text": .fix.text
+        }] else null end)
+    }) | .[]
+'

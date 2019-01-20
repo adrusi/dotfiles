@@ -1,0 +1,159 @@
+source "%val{config}/plugins/plug.kak/rc/plug.kak"
+plug "andreyorst/plug.kak" "noload"
+
+set-option global termcmd "alacritty -e sh -c"
+
+plug andreyorst/fzf.kak %{
+    set-option global fzf_preview false
+    declare-option -hidden str real_termcmd %opt{termcmd}
+    declare-option str fzf_method f
+    define-command -hidden launch-fzf %{
+        set-option global termcmd "st -c kak-fzf -e sh -c"
+        fzf-mode
+        execute-keys %opt{fzf_method}
+        set-option global termcmd %opt{real_termcmd}
+    }
+    # map global user p ': launch-fzf<ret>' #: fzf-mode<ret>'
+    map global normal <c-p> ': launch-fzf<ret>'
+}
+
+plug eraserhd/parinfer-rust do %{
+    cargo build --release
+    ln -sf "${kak_config}/plugins/parinfer-rust/target/release/parinfer-rust" "${kak_config}/bin/parinfer-rust"
+} %{
+    hook -group parinfer global WinSetOption filetype=(lisp|scheme) %{
+        parinfer -paren
+        hook -group parinfer window NormalIdle '' %{
+            parinfer -smart
+        }
+        hook -group parinfer window InsertChar .* %{
+            parinfer -smart
+        }
+        hook -group parinfer window InsertDelete .* %{
+            parinfer -smart
+        }
+    }
+}
+
+plug Delapouite/kakoune-palette
+
+plug adrusi/flint.kak %{
+    set-option global flint_error_face magenta
+    set-option global flint_warning_face cyan
+}
+
+hook global WinSetOption filetype=(typescript|go|rust) %{
+    evaluate-commands %sh{ kak-lsp --kakoune -s $kak_session }
+    lsp-auto-hover-enable
+    set-option global lsp_hover_anchor true
+}
+
+colorscheme adrusi
+add-highlighter global/linenumbers number-lines
+set-option -add global ui_options ncurses_assistant=off
+
+# Windows
+map global normal <c-n> ': x11-new<ret>'
+
+# Commenting
+map global user c :comment-line<ret>
+
+# Wrapping
+declare-option int wrapcol %opt{autowrap_column}
+
+define-command highlight-wrapcol %{
+    set-option buffer autowrap_column %opt{wrapcol}
+    remove-highlighter buffer/wrapcol
+    add-highlighter buffer/wrapcol column \
+                    %sh{ echo $(( $kak_opt_wrapcol + 1 )) } \
+                    LineNumberCursor
+}
+hook global WinCreate .* highlight-wrapcol
+hook global BufCreate .* highlight-wrapcol
+hook global BufSetOption wrapcol=.* highlight-wrapcol
+
+declare-option bool autowrap false
+
+hook global BufSetOption autowrap=true %{
+    hook -group autowrap buffer InsertChar [^\n] %{ try %{
+        execute-keys -draft "hGh<a-k>.{%opt{wrapcol},}<ret><a-;><a-b>i<ret><esc>"
+    } }
+}
+hook global BufSetOption autowrap=false %{ try %{
+    remove-hooks buffer autowrap
+} }
+
+define-command wrap %{
+    evaluate-commands %sh{
+        format_cmd="$(printf %s "${kak_opt_autowrap_fmtcmd}" \
+            | sed 's/%c/${kak_opt_autowrap_column}/g')"
+        printf %s "
+            evaluate-commands -draft %{
+                execute-keys <a-x><a-j> '| ${format_cmd}<ret>'
+                try %{ execute-keys s\h+$<ret> d }
+            }
+            select '${kak_reg_m}'
+        "
+    }
+}
+
+map global user w :wrap<ret>
+
+# soft-wrap by default because the line scrolling is usually just annoying
+add-highlighter global/softwrap wrap -indent -marker "⤷"
+
+# Soft-tabs
+declare-option bool soft_tabs true
+
+hook global BufSetOption soft_tabs=true %{
+    hook -group softtab buffer InsertChar \t %{ try %{
+        execute-keys -draft h %opt{indentwidth}@
+    } }
+
+    hook -group softtab buffer InsertDelete ' ' %{ try %{
+          execute-keys -draft 'h<a-h><a-k>\A\h+\z<ret>i<space><esc><lt>'
+    } }
+}
+
+hook global BufSetOption soft_tabs=false %{
+    remove-hooks buffer softtab
+}
+
+# Linting
+define-command lint-on-save-enable %{
+    hook -group lint-on-save window BufWritePost .* lint
+}
+define-command lint-on-save-disable %{
+    remove-hooks window lint-on-save
+}
+
+# tab/shift-tab for navigating completions
+hook global InsertCompletionShow .* %{ try %{
+    execute-keys -draft hGh<a-K>\A\h+\z<ret>
+    map window insert <tab> <c-n>
+    map window insert <s-tab> <c-p>
+} }
+hook global InsertCompletionHide .* %{
+    unmap window insert <tab> <c-n>
+    unmap window insert <s-tab> <c-p>
+}
+
+# Language-specific editing options
+hook global BufCreate .*[.]sway %{
+    set-option buffer filetype i3
+}
+hook global WinSetOption filetype=haskell %{
+    set-option buffer indentwidth 2
+}
+hook global WinSetOption filetype=make %{
+    set-option buffer soft_tabs false
+}
+hook global WinSetOption filetype=go %{
+    set-option buffer soft_tabs false
+}
+hook global WinSetOption filetype=typescript %{
+    set-option buffer wrapcol 100
+}
+hook global WinSetOption filetype=grep %{
+    remove-highlighter global/softwrap
+}

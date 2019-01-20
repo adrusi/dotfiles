@@ -1,0 +1,20 @@
+#!/bin/sh
+stack=/tmp/mpvplayback
+
+children=""
+
+for f in $(ls /tmp | grep '.mpv.sock$'); do
+	sock="/tmp/$f"
+	[ -S "$sock" ] || continue
+	( if [ "$(printf '{ "command": ["get_property", "pause"] }\n' | socat - "$sock" | jq .data)" == false ]; then
+		printf '{ "command": ["set_property", "pause", true] }\n' | socat - "$sock" > /dev/null
+                # The kernel pipe buffer should be larger than socket filenames, which are typically around 10-20 bytes. Since order doesn't matter, these parallel lock-free writes are fine
+		printf '%s ' "$sock" >> $stack
+	fi ) &
+        children="$children $*"
+done
+
+wait $children
+
+printf '\n' >> $stack
+sed -i '/^$/d' $stack

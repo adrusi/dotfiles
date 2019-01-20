@@ -1,0 +1,3 @@
+for_window [class="^kak-fzf$"] floating enable
+for_window [class="^kak-fzf$"] border pixel 8
+

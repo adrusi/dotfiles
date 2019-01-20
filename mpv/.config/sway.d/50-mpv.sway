@@ -1,0 +1,2 @@
+bindsym Shift+$media_pause exec resumeplayback
+bindsym $media_pause exec suspendplayback

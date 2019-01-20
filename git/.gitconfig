@@ -1,0 +1,5 @@
+[core]
+	excludesfile = ~/.config/git/ignore
+[user]
+	name = Adrian Sinclair
+	email = adrian@adrusi.com
