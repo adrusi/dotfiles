@@ -1,12 +1,17 @@
 #!/bin/sh
 
-pacmd set-card-profile alsa_card.usb-FiiO_FiiO_USB_DAC-E18-01 off
+if [ -z "$EDAC_PULSE_NAME" ] || [ -z "$EDAC_ALSA_NAME" ]; then
+    echo "Please configure audio card for jack using env vars EDAC_PULSE_NAME and EDAC_ALSA_NAME"
+    exit 1
+fi
+
+pacmd set-card-profile "$EDAC_PULSE_NAME" off
 
 sleep 1
 
 jack_control start
 jack_control ds alsa
-jack_control dps device hw:DACE18
+jack_control dps device "$EDAC_ALSA_NAME"
 jack_control dps rate 48000
 jack_control dps nperiods 2
 jack_control dps period 64
@@ -25,4 +30,4 @@ jack_control stop
 
 sleep 1
 
-pacmd set-card-profile alsa_card.usb-FiiO_FiiO_USB_DAC-E18-01 output:analog-stereo
+pacmd set-card-profile "$EDAC_PULSE_NAME" output:analog-stereo
