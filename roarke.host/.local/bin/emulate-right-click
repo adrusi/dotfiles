@@ -1,3 +1,8 @@
 #!/bin/sh
-sudo evemu-event /dev/input/event18 --type EV_KEY --code BTN_RIGHT --value 1 --sync
-sudo evemu-event /dev/input/event18 --type EV_KEY --code BTN_RIGHT --value 0 --sync
+dev="$(cat /tmp/erc-dev)"
+if [ -z "$dev" ]; then
+    dev="$(sudo libinput list-devices | grep -A1 'TPPS/2 IBM TrackPoint' | tail -n1 | awk '{print $2}')"
+    printf '%s\n' "$dev" > /tmp/erc-dev
+fi
+sudo evemu-event "$dev" --type EV_KEY --code BTN_RIGHT --value 1 --sync
+sudo evemu-event "$dev" --type EV_KEY --code BTN_RIGHT --value 0 --sync

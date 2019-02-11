@@ -4,6 +4,12 @@ input * {
 font pango:SF Pro Text 10
 output * bg ~/wallpaper.jpg stretch
 
+set $gnome-schema org.gnome.desktop.interface
+exec_always {
+    gsettings set $gnome-schema gtk-theme 'FlatColor'
+    gsettings set $gnome-schema cursor-theme 'OSX-ElCap'
+}
+
 focus_follows_mouse no
 workspace_layout tabbed
 
@@ -11,9 +17,10 @@ gaps inner 10px
 gaps outer 5px
 titlebar_padding 6 6
 
-bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5461
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5461
+# set $pulse_sink 0
+bindsym XF86AudioMute exec pactl set-sink-mute $pulse_sink toggle
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume $pulse_sink -5461
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume $pulse_sink +5461
 
 bindsym XF86MonBrightnessUp exec brightnessctl set 8.33%+
 bindsym XF86MonBrightnessDown exec brightnessctl set 8.33%-

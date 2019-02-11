@@ -1,0 +1,28 @@
+#!/bin/sh
+
+pacmd set-card-profile alsa_card.usb-FiiO_FiiO_USB_DAC-E18-01 off
+
+sleep 1
+
+jack_control start
+jack_control ds alsa
+jack_control dps device hw:DACE18
+jack_control dps rate 48000
+jack_control dps nperiods 2
+jack_control dps period 64
+
+sleep 1
+
+a2jmidid -e &
+a2j_pid=$!
+catia &
+catia_pid=$!
+
+wait $catia_pid
+
+kill $a2j_pid
+jack_control stop
+
+sleep 1
+
+pacmd set-card-profile alsa_card.usb-FiiO_FiiO_USB_DAC-E18-01 output:analog-stereo

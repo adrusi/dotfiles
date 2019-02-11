@@ -3,6 +3,8 @@ plug "andreyorst/plug.kak" "noload"
 
 set-option global termcmd "alacritty -e sh -c"
 
+declare-user-mode fzf
+declare-user-mode fzf-vcs
 plug andreyorst/fzf.kak %{
     set-option global fzf_preview false
     declare-option -hidden str real_termcmd %opt{termcmd}
@@ -42,6 +44,8 @@ plug adrusi/flint.kak %{
     set-option global flint_warning_face cyan
 }
 
+plug adrusi/terra.kak
+
 hook global WinSetOption filetype=(typescript|go|rust) %{
     evaluate-commands %sh{ kak-lsp --kakoune -s $kak_session }
     lsp-auto-hover-enable
@@ -56,7 +60,24 @@ set-option -add global ui_options ncurses_assistant=off
 map global normal <c-n> ': x11-new<ret>'
 
 # Commenting
-map global user c :comment-line<ret>
+define-command -hidden adrusi-comment-line %{
+    try %{
+        comment-line
+    } catch %{
+        try %{
+            evaluate-commands -draft %{
+                execute-keys <a-s>
+                comment-block
+            }
+        } catch %{
+            evaluate-commands -draft %{
+                execute-keys xH
+                comment-block
+            }
+        }
+    }
+}
+map global user c %{: adrusi-comment-line<ret>}
 
 # Wrapping
 declare-option int wrapcol %opt{autowrap_column}
