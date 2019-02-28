@@ -29,6 +29,7 @@ input "2:7:SynPS/2_Synaptics_TouchPad" {
 }
 
 output HDMI-A-1 pos 0 0 res 1920x1080
+output VGA-1 pos 1920 960 res 1920x1200
 output eDP-1 pos 0 1080 res 1920x1080
 
 # I prefer XF86AudioMicMute but the binding to modifier+multimedia_key is broken
