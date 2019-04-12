@@ -1,0 +1,28 @@
+{
+    "wallpaper": "/home/adrusi/.config/wpg/wallpapers/poly-foxes.jpg",
+    "alpha": "100",
+
+    "special": {
+        "background": "#371202",
+        "foreground": "#a0b7c7",
+        "cursor": "#a0b7c7"
+    },
+    "colors": {
+        "color0": "#371202",
+        "color1": "#5e713d",
+        "color2": "#a2462e",
+        "color3": "#86733b",
+        "color4": "#394c5d",
+        "color5": "#855646",
+        "color6": "#6e727d",
+        "color7": "#a0b7c7",
+        "color8": "#414550",
+        "color9": "#5e713d",
+        "color10": "#a2462e",
+        "color11": "#86733b",
+        "color12": "#394c5d",
+        "color13": "#855646",
+        "color14": "#6e727d",
+        "color15": "#a0b7c7"
+    }
+}

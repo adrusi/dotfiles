@@ -1,1 +1,1 @@
-exec_always "pkill waybar; waybar -s ~/.config/waybar/styleDark.css"
+exec_always "pkill waybar; waybar -s ~/.config/waybar/wpg.css"

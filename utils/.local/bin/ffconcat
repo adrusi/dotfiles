@@ -96,7 +96,7 @@ function valid_format {
 if [ -n "$format" ] && ! valid_format "$format"; then
     printf '[%s] Invalid format: %s\n' "$program" "$1" >&2
     exit 1
-done
+fi
 
 # Ensure format was specified if writing to stdout
 if [ "$output" = /dev/stdout ] && [ -z "$format" ]; then

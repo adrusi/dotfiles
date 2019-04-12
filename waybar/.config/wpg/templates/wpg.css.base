@@ -1,0 +1,80 @@
+* {{
+    border: none;
+    border-radius: 0;
+    font-family: {fontdisplay}, Noto Sans, Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+}}
+
+window#waybar {{
+    background: rgba({color0.rgb}, 0.45);
+    border-bottom: 1px solid rgba({color0.rgb}, 0.55);
+    color: {color7};
+}}
+
+#workspaces {{
+    margin-left: 8px;
+    margin-right: 16px;
+}}
+
+#workspaces button {{
+    margin: 1px 0 1px 16px;
+    padding: 0px 1px 0px 1px;
+    color: rgba({color7.rgb}, 0.5);
+    background: transparent;
+}}
+
+
+#workspaces button.focused {{
+    color: rgba({color7.rgb}, 1);
+}}
+
+#workspaces button:hover {{
+    background: transparent;
+    box-shadow: none;
+    text-shadow: none;
+}}
+
+#mode {{
+    margin: 1px 0 1px 0;
+    color: rgba({color0.rgb}, .7);
+    text-shadow: -1px 0 2px {active},
+                 -.71px .71px 2px {active},
+                 0 1px 2px {active},
+                 .71px .71px 2px {active},
+                 1px 0 2px {active},
+                 .71px -.71px 2px {active},
+                 0 -1px 2px {active},
+                 -.71px -.71px 2px {active};
+}}
+
+#clock, #battery, #cpu, #memory, #network, #pulseaudio, #custom-vpn, #tray, #mode {{
+    margin: 0px 16px 0px 0px;
+    border-bottom: 1px solid transparent;
+}}
+
+#clock {{
+    margin-right: 20px;
+}}
+
+#custom-vpn, #mode, #pulseaudio, #network, #battery, #clock {{
+    border-top: 2px solid transparent;
+}}
+
+#pulseaudio {{
+    margin-left: 16px;
+}}
+
+#battery.critical {{
+    color: #e06c75;
+}}
+#battery.charging {{
+    color: {active};
+}}
+#battery.full {{
+    margin: 0px 0px 0px 0px;
+}}
+
+#custom-vpn.off, #network.disconnected, #pulseaudio.muted {{
+    color: rgba({color7.rgb}, 0.3);
+}}

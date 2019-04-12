@@ -21,7 +21,6 @@ plug andreyorst/fzf.kak %{
 
 plug eraserhd/parinfer-rust do %{
     cargo build --release
-    ln -sf "${kak_config}/plugins/parinfer-rust/target/release/parinfer-rust" "${kak_config}/bin/parinfer-rust"
 } %{
     hook -group parinfer global WinSetOption filetype=(lisp|scheme) %{
         parinfer -paren

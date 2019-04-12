@@ -1,10 +1,24 @@
-set $coloract "#<COLORACT>"
-set $colorin "#<COLORIN>"
-set $color15 "#<COLOR15>"
-set $split "#<COLOR10>"
-set $coloru "#<COLOR2>"
-set $color0 "#<COLOR0>"
-set $color8 "#<COLOR8>"
+exec_always sway-load-wpg
+
+font pango:{fontui} {fontuisize}
+
+set $gnome-schema org.gnome.desktop.interface
+exec_always {{
+    gsettings set $gnome-schema gtk-theme 'FlatColor'
+    gsettings set $gnome-schema cursor-theme 'OSX-ElCap'
+    gsettings set $gnome-schema icon-theme 'Papirus-Dark'
+    gsettings set $gnome-schema font-name '{fontui} {fontuisize}'
+    gsettings set $gnome-schema monospace-font-name '{fontmono} {fontmonosize}'
+}}
+
+
+set $coloract "{active}"
+set $colorin "{inactive}"
+set $color15 "{color15}"
+set $split "{color10}"
+set $coloru "{color2}"
+set $color0 "{color0}"
+set $color8 "{color8}"
 
 # class border backgr text indicator child_border
 client.focused          $coloract $coloract $color15 $split  $coloract

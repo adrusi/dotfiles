@@ -1,4 +1,4 @@
 if [ "$(tty)" = "/dev/tty1" ]; then
-    sway
-    exit 0
+    systemd-cat --identifier=sway sway >/dev/null 2>/dev/null
+    exit 0 >/dev/null 2>/dev/null
 fi

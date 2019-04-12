@@ -1,14 +1,8 @@
 input * {
     xkb_options ctrl:nocaps,compose:ralt
 }
-font pango:SF Pro Text 10
-output * bg ~/wallpaper.jpg stretch
 
-set $gnome-schema org.gnome.desktop.interface
-exec_always {
-    gsettings set $gnome-schema gtk-theme 'FlatColor'
-    gsettings set $gnome-schema cursor-theme 'OSX-ElCap'
-}
+exec udiskie
 
 focus_follows_mouse no
 workspace_layout tabbed
