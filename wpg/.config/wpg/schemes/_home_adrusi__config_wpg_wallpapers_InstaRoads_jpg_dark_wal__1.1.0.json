@@ -1,0 +1,28 @@
+{
+    "wallpaper": "/home/adrusi/.config/wpg/wallpapers/InstaRoads.jpg",
+    "alpha": "100",
+
+    "special": {
+        "background": "#422f30",
+        "foreground": "#bdc198",
+        "cursor": "#bdc198"
+    },
+    "colors": {
+        "color0": "#422f30",
+        "color1": "#D17B49",
+        "color2": "#7B8748",
+        "color3": "#AF865A",
+        "color4": "#586161",
+        "color5": "#7f5f61",
+        "color6": "#6D715E",
+        "color7": "#bdc08b",
+        "color8": "#7e5c5e",
+        "color9": "#D17B49",
+        "color10": "#7B8748",
+        "color11": "#AF865A",
+        "color12": "#586161",
+        "color13": "#7f5f61",
+        "color14": "#6D715E",
+        "color15": "#bdc198"
+    }
+}
