@@ -12,6 +12,8 @@ gaps outer 5px
 titlebar_padding 6 6
 default_border normal 0
 
+bindsym Print exec grim ~/.local/share/screenshot/$(date +%+4Y-%m-%d.%R:%S).png
+
 # set $pulse_sink 0
 bindsym XF86AudioMute exec pactl set-sink-mute $pulse_sink toggle
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume $pulse_sink -5461

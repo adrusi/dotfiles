@@ -16,3 +16,5 @@
 /alacritty/.config/alacritty/alacritty.yml
 
 /waybar/.config/waybar/wpg.css
+
+/sway/.local/share/screenshot
