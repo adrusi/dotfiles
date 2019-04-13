@@ -1,0 +1,3 @@
+#!/bin/sh
+winid="$(while ! swaymsg -t subscribe '["window"]' | jq -r 'if .change == "new" and .container.app_id == "Alacritty" then .container.id else halt_error end'; do continue; done)"
+swaymsg "[id=$winid] focus; floating enable; border pixel 10"

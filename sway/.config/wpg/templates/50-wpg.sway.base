@@ -20,11 +20,11 @@ set $coloru "{color2}"
 set $color0 "{color0}"
 set $color8 "{color8}"
 
-# class border backgr text indicator child_border
-client.focused          $coloract $coloract $color15 $split  $coloract
-client.focused_inactive $coloract $coloract $color15 $split  $colorin
-client.unfocused        $colorin  $colorin  $color15 $split  $colorin
-client.urgent           $coloru   $coloru   $color15 $coloru $coloru
-client.placeholder      $color0   $color8   $color15 $color0 $color8
-client.background       $color0
+# class                 border    backgr    text     indicator child_border
+client.focused          $coloract $coloract $color15 $coloract $coloract   
+client.focused_inactive $coloract $coloract $color15 $coloract $colorin    
+client.unfocused        $colorin  $colorin  $color15 $colorin  $colorin    
+client.urgent           $coloru   $coloru   $color15 $coloru   $coloru     
+client.placeholder      $color0   $color8   $color15 $color0   $color8     
+client.background       $color0  
 

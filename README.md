@@ -32,7 +32,7 @@ This provides a jack launcher specific to the eDAC setup on my laptop.
 
 Requires `sway/`
 
-System dependencies: `kakoune` `kak-lsp` `git` `fzf` `st` `alacritty`
+System dependencies: `kakoune` `kak-lsp` `git` `fzf` `alacritty`
 
 ### Mpv
 

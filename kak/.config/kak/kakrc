@@ -10,10 +10,10 @@ plug andreyorst/fzf.kak %{
     declare-option -hidden str real_termcmd %opt{termcmd}
     declare-option str fzf_method f
     define-command -hidden launch-fzf %{
-        set-option global termcmd "st -c kak-fzf -e sh -c"
         fzf-mode
         execute-keys %opt{fzf_method}
-        set-option global termcmd %opt{real_termcmd}
+        # This actually blocks (why?) but placing it here makes it work
+        nop %sh{ float-next-alacritty-window & }
     }
     # map global user p ': launch-fzf<ret>' #: fzf-mode<ret>'
     map global normal <c-p> ': launch-fzf<ret>'
