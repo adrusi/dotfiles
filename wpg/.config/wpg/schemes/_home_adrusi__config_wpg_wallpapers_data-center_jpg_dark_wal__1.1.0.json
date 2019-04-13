@@ -1,0 +1,28 @@
+{
+    "wallpaper": "/home/adrusi/.config/wpg/wallpapers/data-center.jpg",
+    "alpha": "100",
+
+    "special": {
+        "background": "#492752",
+        "foreground": "#ddb5bf",
+        "cursor": "#ddb5bf"
+    },
+    "colors": {
+        "color0": "#492752",
+        "color1": "#61afef",
+        "color2": "#98c379",
+        "color3": "#e5c07b",
+        "color4": "#e06c75",
+        "color5": "#c678dd",
+        "color6": "#56b6c2",
+        "color7": "#cfb7bd",
+        "color8": "#545862",
+        "color9": "#61afef",
+        "color10": "#98c379",
+        "color11": "#e5c07b",
+        "color12": "#e06c75",
+        "color13": "#c678dd",
+        "color14": "#56b6c2",
+        "color15": "#ddb5bf"
+    }
+}
