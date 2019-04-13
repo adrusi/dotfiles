@@ -10,6 +10,7 @@ workspace_layout tabbed
 gaps inner 10px
 gaps outer 5px
 titlebar_padding 6 6
+default_border normal 0
 
 # set $pulse_sink 0
 bindsym XF86AudioMute exec pactl set-sink-mute $pulse_sink toggle
