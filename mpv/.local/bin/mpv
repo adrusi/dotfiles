@@ -5,5 +5,7 @@ for f in ~/.config/mpv/conf.d/*.conf; do
 	inc_args+=("--include=$f")
 done
 
-/usr/bin/mpv --input-ipc-server="/tmp/$$.mpv.sock" "${inc_args[@]}" "$@"
-rm -rf "/tmp/$$.mpv.sock"
+/usr/bin/mpv "${inc_args[@]}" "$@" &
+pid=$!
+wait
+rm -rf "/tmp/$!.mpv.sock"

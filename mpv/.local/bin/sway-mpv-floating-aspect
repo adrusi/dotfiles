@@ -1,0 +1,51 @@
+#!/bin/bash
+
+STD_WIDTH=600
+STD_HEIGHT=500
+
+while true; do
+    # select events where an mpv window becomes floating
+    event="$(swaymsg -t subscribe '["window"]' | jq 'select((.container.app_id == "mpv" or .container.window_properties.class == "mpv") and .container.type == "floating_con")')"
+    [ -z "$event" ] && continue
+
+    # get the important information about the window. jq has a slow startup, so do it all at once
+    read -r change id pid x y w h < <(jq -r '"\(.change) \(.container.id) \(.container.pid) \(.container.rect.x) \(.container.rect.y) \(.container.rect.width) \(.container.rect.height)"' <<<"$event")
+
+    sock="/tmp/$pid.mpv.sock"
+
+    # get the video aspect ratio
+    read -r aspect err < <(printf '{ "command": ["get_property", "video-params/aspect"] }\n' | socat - "$sock" | jq -r '"\(.data) \(.err)"')
+    
+    if [ "$err" != "null" ]; then
+        printf '[mpv error] %s\n' "$err" >&2
+        continue
+    fi
+
+    if [ "$change" = floating ]; then
+        if [ $(printf 'scale=10; %s > 1\n' $aspect | bc) = 1 ]; then
+            # landscape video; set width to standard
+            new_w=$STD_WIDTH
+            new_h=$(printf '%s / %s\n' $new_w $aspect | bc)
+            new_h=${new_h%%.*}
+        else
+            # portrait video; set height to standard
+            new_h=$STD_HEIGHT
+            new_w=$(printf '%s * %s\n' $new_h $aspect | bc)
+            new_w=${new_w%%.*}
+        fi
+        printf "%s %s\n" $new_w $new_h
+
+        # It's unlikely that the window that just became floating isn't already
+        # focused, but just in case...
+
+        # FRAGILE: clumsily get the currently focused window id
+        # focused=$(swaymsg -t get_tree | grep -B8 '"focused": true,' | grep -om1 '[0-9]\+')
+
+        # printf '%s\n' $id
+        # swaymsg "[id=$id] focus; resize set $new_w $new_h; [id=$focused] focus"
+        swaymsg "border none; resize set $new_w $new_h"
+    fi
+    # elif [ "$change" = resize ]; then
+        
+    # fi
+done
