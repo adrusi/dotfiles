@@ -69,7 +69,7 @@ window#waybar {{
     color: #e06c75;
 }}
 #battery.charging {{
-    color: {active};
+    color: {color9};
 }}
 #battery.full {{
     margin: 0px 0px 0px 0px;
