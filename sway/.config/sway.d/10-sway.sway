@@ -9,7 +9,7 @@ workspace_layout tabbed
 
 gaps inner 10px
 gaps outer 5px
-titlebar_padding 6 6
+titlebar_padding 12 10
 default_border normal 0
 
 bindsym Print exec grim ~/.local/share/screenshot/$(date +%+4Y-%m-%d.%R:%S).png

@@ -4,8 +4,8 @@
 
     "special": {
         "background": "#000000",
-        "foreground": "#bfa9bb",
-        "cursor": "#bfa9bb"
+        "foreground": "#e1c8dc",
+        "cursor": "#e1c8dc"
     },
     "colors": {
         "color0": "#000000",
@@ -15,7 +15,7 @@
         "color4": "#888888",
         "color5": "#999999",
         "color6": "#aaaaaa",
-        "color7": "#bfa9bb",
+        "color7": "#e1c8dc",
         "color8": "#333333",
         "color9": "#5f8787",
         "color10": "#a5aaa7",
@@ -23,6 +23,6 @@
         "color12": "#888888",
         "color13": "#999999",
         "color14": "#aaaaaa",
-        "color15": "#bfa9bb"
+        "color15": "#e1c8dc"
     }
 }

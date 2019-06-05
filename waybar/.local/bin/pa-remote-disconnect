@@ -1,0 +1,10 @@
+#!/bin/sh
+
+sink="$(pactl list sinks | awk '/^[[:space:]]*Name: .*alsa_output.pci/ { print $2 }')"
+
+pactl set-default-sink "$sink"
+
+pacmd list-sink-inputs | awk '/^[[:space:]]*index: [[:digit:]]+$/ { print $2 }' \
+| while read -r sinkinput; do
+    pacmd move-sink-input $sinkinput "$sink"
+done

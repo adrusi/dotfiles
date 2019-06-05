@@ -18,3 +18,5 @@
 /waybar/.config/waybar/wpg.css
 
 /sway/.local/share/screenshot
+
+/go/.local/go/*

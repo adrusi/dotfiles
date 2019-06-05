@@ -7,8 +7,22 @@
     "sway/mode": {
         "format": "{}"
     },
-    "sway/window": {
-        "max-length": 100
+    "sway/workspaces": {
+        "format": "{icon}",
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format-icons": {
+            "1": "一",
+            "2": "二",
+            "3": "三",
+            "4": "四",
+            "5": "五",
+            "6": "六",
+            "7": "七",
+            "8": "八",
+            "9": "九",
+            "10": "十"
+        }
     },
     "clock": {
         "format": "{:%a %-d %h %-H:%M}"
@@ -23,24 +37,28 @@
         "states": {
             "critical": 10
         },
-        "format": "{capacity}%  {icon}",
+        "format": "{capacity}% {icon}",
         "format-full": "",
         "format-icons": ["", "", "", "", ""]
     },
     "network": {
-        "format-wifi": "{essid}  ",
-        "format-ethernet": "{ifname}  ",
+        "format-wifi": "{essid} ",
+        "format-ethernet": "{ifname} ",
         "format-disconnected": ""
     },
     "custom/vpn": {
         "format": "{}",
         "return-type": "json",
-        "exec": "waybar-vpn"
+        "exec": "waybar-vpn",
+        "on-click": "systemctl start openvpn-client@US_Washington_DC",
+        "on-click-right": "systemctl stop openvpn-client@US_Washington_DC"
     },
     "pulseaudio": {
-        "format": "{volume}%  {icon}",
-        "format-bluetooth": "{volume}%  {icon}",
-        "format-muted": "{volume}%  {icon}",
+        "on-click": "pa-remote-connect",
+        "on-click-right": "pa-remote-disconnect",
+        "format": "{volume}% {icon}",
+        "format-bluetooth": "{volume}% {icon}",
+        "format-muted": "{volume}% {icon}",
         "format-icons": {
             "headphones": "",
             "handsfree": "",

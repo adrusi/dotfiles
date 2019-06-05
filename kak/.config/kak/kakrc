@@ -45,6 +45,14 @@ plug adrusi/flint.kak %{
 
 plug adrusi/terra.kak
 
+# plug "andreyorst/powerline.kak" %{
+#     hook global WinCreate .* %{
+#         powerline-separator triangle
+#     }
+# }
+
+plug adrusi/zig.kak
+
 hook global WinSetOption filetype=(typescript|go|rust) %{
     evaluate-commands %sh{ kak-lsp --kakoune -s $kak_session }
     lsp-auto-hover-enable
@@ -82,25 +90,24 @@ map global user c %{: adrusi-comment-line<ret>}
 declare-option int wrapcol %opt{autowrap_column}
 
 define-command highlight-wrapcol %{
-    set-option buffer autowrap_column %opt{wrapcol}
-    remove-highlighter buffer/wrapcol
-    add-highlighter buffer/wrapcol column \
+    set-option window autowrap_column %opt{wrapcol}
+    remove-highlighter window/wrapcol
+    add-highlighter window/wrapcol column \
                     %sh{ echo $(( $kak_opt_wrapcol + 1 )) } \
                     LineNumberCursor
 }
 hook global WinCreate .* highlight-wrapcol
-hook global BufCreate .* highlight-wrapcol
-hook global BufSetOption wrapcol=.* highlight-wrapcol
+hook global WinSetOption wrapcol=.* highlight-wrapcol
 
 declare-option bool autowrap false
 
-hook global BufSetOption autowrap=true %{
-    hook -group autowrap buffer InsertChar [^\n] %{ try %{
+hook global WinSetOption autowrap=true %{
+    hook -group autowrap window InsertChar [^\n] %{ try %{
         execute-keys -draft "hGh<a-k>.{%opt{wrapcol},}<ret><a-;><a-b>i<ret><esc>"
     } }
 }
-hook global BufSetOption autowrap=false %{ try %{
-    remove-hooks buffer autowrap
+hook global WinSetOption autowrap=false %{ try %{
+    remove-hooks window autowrap
 } }
 
 define-command wrap %{
@@ -125,26 +132,26 @@ add-highlighter global/softwrap wrap -indent -marker "⤷"
 # Soft-tabs
 declare-option bool soft_tabs true
 
-hook global BufSetOption soft_tabs=true %{
-    hook -group softtab buffer InsertChar \t %{ try %{
+hook global WinSetOption soft_tabs=true %{
+    hook -group softtab window InsertChar \t %{ try %{
         execute-keys -draft h %opt{indentwidth}@
     } }
 
-    hook -group softtab buffer InsertDelete ' ' %{ try %{
+    hook -group softtab window InsertDelete ' ' %{ try %{
           execute-keys -draft 'h<a-h><a-k>\A\h+\z<ret>i<space><esc><lt>'
     } }
 }
 
-hook global BufSetOption soft_tabs=false %{
-    remove-hooks buffer softtab
+hook global WinSetOption soft_tabs=false %{
+    remove-hooks window softtab
 }
 
 # Linting
 define-command lint-on-save-enable %{
-    hook -group lint-on-save window BufWritePost .* lint
+    hook -group lint-on-save buffer BufWritePost .* lint
 }
 define-command lint-on-save-disable %{
-    remove-hooks window lint-on-save
+    remove-hooks buffer lint-on-save
 }
 
 # tab/shift-tab for navigating completions
@@ -163,17 +170,24 @@ hook global BufCreate .*[.]sway %{
     set-option buffer filetype i3
 }
 hook global WinSetOption filetype=haskell %{
-    set-option buffer indentwidth 2
+    set-option window indentwidth 2
 }
 hook global WinSetOption filetype=make %{
-    set-option buffer soft_tabs false
+    set-option window soft_tabs false
 }
 hook global WinSetOption filetype=go %{
-    set-option buffer soft_tabs false
+    set-option window soft_tabs false
+    set-option window tabstop 4
 }
 hook global WinSetOption filetype=typescript %{
-    set-option buffer wrapcol 100
+    set-option window wrapcol 100
 }
 hook global WinSetOption filetype=grep %{
     remove-highlighter global/softwrap
+}
+
+evaluate-commands %sh{
+    for f in "$kak_config"/conf.d/*.kak; do
+        printf 'source "%s"\n' "$f"
+    done
 }

@@ -8,7 +8,7 @@ function vpnstatus {
         }
     ')"
     if [ -n "$vpn" ]; then
-        vpn="$vpn  "
+        vpn="$vpn "
         class=on
     else
         vpn=""
