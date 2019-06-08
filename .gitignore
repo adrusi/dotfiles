@@ -7,6 +7,8 @@
 /mpv/.config/mpv/watch_later
 
 /vscode/.vscode-oss/extensions/vscode-wal/themes/vs-wal-color-theme.json
+/vscode/.vscode-oss/extensions/vscode-wal-light/themes/vs-wal-color-theme.json
+
 
 /wpg/.config/wpg/formats
 /wpg/.config/wpg/samples
