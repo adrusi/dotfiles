@@ -17,6 +17,8 @@
 
 /waybar/.config/waybar/wpg.css
 
+/firefox/.mozilla/firefox/developer-edition/chrome/wpg.css
+
 /sway/.local/share/screenshot
 
 /go/.local/go/*

@@ -3,11 +3,8 @@
     visibility: collapse;
 }
 
-/* System UI font */
-* {
-    font-family: "iA Writer Duo S" !important;
-	  font-size: 10pt !important;
-}
+/* Wpgtk integration */
+@import "wpg.css";
 
 /* Hide buttons **/
 :root:not([customizing]) #nav-bar toolbarbutton,

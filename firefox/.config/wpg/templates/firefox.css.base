@@ -1,0 +1,7 @@
+@-moz-document url(chrome://browser/content/browser.xul) {{
+    * {{
+        font-family: "{fontui}" !important;
+        font-size: {fontuisize}pt !important;
+        color: {color9} !important;
+    }}
+}}
