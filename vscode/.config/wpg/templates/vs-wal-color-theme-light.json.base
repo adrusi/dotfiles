@@ -1,5 +1,5 @@
 {{
-	"name": "vs-wal",
+	"name": "vs-wal-light",
         "type": "dark",
 	"colors": {{
                 "foreground": "{foreground}",
