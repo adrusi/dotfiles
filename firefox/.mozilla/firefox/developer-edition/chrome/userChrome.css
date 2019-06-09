@@ -21,7 +21,6 @@
 /* Show on hover or focus */
 :root:not([customizing]) :hover > #nav-bar toolbarbutton,
 :root:not([customizing]) #navigator-toolbox:focus-within #nav-bar toolbarbutton,
-:root:not([customizing]) :hover > #titlebar toolbarbutton,
 :root:not([customizing]) :hover #page-action-buttons,
 :root:not([customizing]) #navigator-toolbox:focus-within #page-action-buttons {
 		margin-left: 0 !important;
@@ -49,9 +48,21 @@
     border-bottom: 0px solid transparent !important;
 }
 
-/* Vertical alignment of urlbar content with sway titlebar text */
+/* Vertical alignment of navbar content with sway titlebar text */
 #identity-icon {
 	margin-left: 3px !important;
+}
+:root:not([customizing]) :hover #back-button,
+:root:not([customizing]) #navigator-toolbox:focus-within #back-button {
+  padding-left: 5px !important;
+}
+:root:not([customizing]) :hover #reload-button,
+:root:not([customizing]) #navigator-toolbox:focus-within #reload-button {
+  padding-right: 3px !important;
+}
+:root:not([customizing]) :hover #PanelUI-menu-button,
+:root:not([customizing]) #navigator-toolbox:focus-within #PanelUI-menu-button {
+	padding-right: 4px !important;
 }
 
 /* Padding of buttons inside urlbar */
