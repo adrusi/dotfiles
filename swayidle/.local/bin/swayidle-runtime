@@ -1,0 +1,41 @@
+#!/bin/sh
+
+locker="swaylock-blur --blur-sigma 20 -- -f"
+
+dim_timeout=180
+lock_timeout=$((dim_timeout + 10))
+dps_timeout=$((lock_timeout + 60))
+suspend_timeout=$((dps_timeout + 60))
+
+idle_pid=
+
+init_idle() {
+    swayidle -w \
+        timeout $dim_timeout 'brightnessctl --save set 10%' \
+            resume 'brightnessctl --restore' \
+        timeout $lock_timeout "swayidle-inhibit --ignore-ac || $locker" \
+        timeout $dps_timeout 'swayidle-inhibit || swaymsg "output * dpms off"' \
+            resume 'swaymsg "output * dpms on"' \
+        timeout $suspend_timeout 'swayidle-inhibit || { swaymsg "output * dpms on"; brightnessctl --restore; systemctl suspend; }' \
+        before-sleep "$locker" \
+        lock "$locker" &
+    idle_pid=$!
+}
+
+init_idle
+
+# If something changed to (or to cease) inhibit locking, ie laptop (dis)connected from AC, reset the timeouts
+inhibit_status=$(swayidle-inhibit; printf '%s\n' $?)
+while true; do
+    new_inhibit_status=$(swayidle-inhibit; printf '%s\n' $?)
+    if [ $new_inhibit_status != $inhibit_status ]; then
+        kill $idle_pid
+
+        swaymsg "output * dpms on"
+        brightnessctl --restore
+
+        init_idle
+    fi
+    inhibit_status=$new_inhibit_status
+    sleep 1
+done

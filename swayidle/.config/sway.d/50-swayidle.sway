@@ -1,0 +1,2 @@
+exec_always pkill swayidle; swayidle-runtime
+bindsym $mod+Escape exec loginctl lock-session

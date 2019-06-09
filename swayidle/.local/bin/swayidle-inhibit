@@ -1,0 +1,26 @@
+#!/bin/sh
+
+ignore_ac=false
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+    --ignore-ac)
+        ignore_ac=true
+        ;;
+    esac
+
+    shift
+done
+
+if [ $ignore_ac = false ]; then
+    # Inhibit locking if plugged into power supply.
+    [ "$(cat /sys/class/power_supply/AC/online)" = 1 ] && exit 0
+fi
+
+# Inhibit locking is audio is playing.
+# Hack to get web-based video players to inhibit locking.
+# Mpv inhibits locking on its own through the simulate-user-activity API
+pactl list | grep RUNNING 1>/dev/null 2>/dev/null && exit 0
+
+# Do not inhibit locking.
+exit 1
