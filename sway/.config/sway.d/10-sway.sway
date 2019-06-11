@@ -7,8 +7,8 @@ exec udiskie
 focus_follows_mouse no
 workspace_layout tabbed
 
-gaps inner 10px
-gaps outer 5px
+gaps inner 15px
+# gaps outer 0px
 titlebar_padding 12 10
 default_border normal 0
 

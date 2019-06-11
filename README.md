@@ -18,6 +18,18 @@ Requires `wpg/`
 
 System dependency: `alacritty`
 
+### Firefox
+
+Requires `wpg/`
+
+System dependency: `firefox`
+
+### Ghostwriter
+
+Requires `wpg/`
+
+System dependency: `ghostwriter`
+
 ### Git
 
 System dependency: `git`
@@ -34,6 +46,16 @@ Requires `sway/`
 
 System dependencies: `kakoune` `kak-lsp` `git` `fzf` `alacritty`
 
+### Mail
+
+System dependencies: `astroid` `notmuch` `gmailieer` `zenity` `bitwarden-cli`
+
+Needs extra setup on new machines:
+
+1) `stow mail`
+2) `notmuch new`
+3) `cd ~/mail/adrian@adrusi.com/; gmi init adrian@adrusi.com; gmi pull`
+
 ### Mpv
 
 System dependencies: `mpv` `socat` `jq` `youtube-dl` `peerflix`
@@ -45,6 +67,10 @@ These are specific to my laptop
 Sudo must be configured to allow the user to run evemu-event without a password.
 
 System dependencies: `evemu` `pulseaudio`
+
+### Redshift
+
+System dependencies: `redshift` `geoclue2`
 
 ### Rofi
 
@@ -61,6 +87,10 @@ System dependencies: `ssh` `ssh-agent` `keychain` `gnome-ssh-askpass2`
 System dependencies: `sway` `xwayland` `rofi` `st` `udiskie` `backlightctl`
 
 Requires the user to be a member of group `video` (for backlight control)
+
+### Swayidle
+
+System dependencies: `sway` `swayidle` `swaylock-blur` `backlightctl`
 
 ### Utils
 

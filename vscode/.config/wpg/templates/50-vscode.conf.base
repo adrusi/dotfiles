@@ -5,9 +5,4 @@
         <test qual="any" name="family"><string>Ubuntu</string></test>
         <edit name="family" mode="assign" binding="same"><string>{fontui}</string></edit>
     </match>
-    <alias>
-        <family>dox</family>
-        <prefer><family>SF Pro Text</family></prefer>
-        <default><family>fixed</family></default>
-    </alias>
 </fontconfig>

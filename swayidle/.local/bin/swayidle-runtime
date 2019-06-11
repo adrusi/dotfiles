@@ -1,6 +1,22 @@
-#!/bin/sh
+#!/bin/bash
 
-locker="swaylock-blur --blur-sigma 20 -- -f"
+[ -e ~/.config/wpg/formats/colors.sh ] && source ~/.config/wpg/formats/colors.sh
+background="${background:-#000000}"
+foreground="${foreground:-#ffffff}"
+background="${background:1}aa"
+foreground="${foreground:1}ff"
+
+fontopt=
+if [ -e ~/.config/wpg/wpg.conf ]; then
+    font="$(awk '/^fontui = / { $1 = ""; $2 = ""; print $0; }' < ~/.config/wpg/wpg.conf | tail -c+3)"
+    fontsize="$(awk '/^fontuisize = / { $1 = ""; $2 = ""; print $0; }' < ~/.config/wpg/wpg.conf | tail -c+3)"
+    fontopt="--font '$font $fontsize'"
+fi
+locker="swaylock-blur --blur-sigma 20 -- --daemonize $fontopt --inside-color $background --inside-clear-color $background --inside-caps-lock-color $background --inside-ver-color $background --inside-wrong-color $background --text-color $foreground --text-clear-color $foreground --text-caps-lock-color $foreground --text-ver-color $foreground --text-wrong-color $foreground --line-color 00000000 --line-clear-color 00000000 --line-caps-lock-color 00000000 --line-ver-color 00000000 --line-wrong-color 00000000 --separator-color 00000000"
+
+echo "$locker"
+
+brightnessctl_savefile=/run/user/$(id -u)/brightnessctl/backlight/intel_backlight
 
 dim_timeout=180
 lock_timeout=$((dim_timeout + 10))
@@ -11,12 +27,12 @@ idle_pid=
 
 init_idle() {
     swayidle -w \
-        timeout $dim_timeout 'brightnessctl --save set 10%' \
-            resume 'brightnessctl --restore' \
+        timeout $dim_timeout 'swayidle-inhibit || brightnessctl --save set 10%' \
+            resume "brightnessctl --restore; rm $brightnessctl_savefile" \
         timeout $lock_timeout "swayidle-inhibit --ignore-ac || $locker" \
         timeout $dps_timeout 'swayidle-inhibit || swaymsg "output * dpms off"' \
             resume 'swaymsg "output * dpms on"' \
-        timeout $suspend_timeout 'swayidle-inhibit || { swaymsg "output * dpms on"; brightnessctl --restore; systemctl suspend; }' \
+        timeout $suspend_timeout "swayidle-inhibit || { swaymsg 'output * dpms on'; brightnessctl --restore; rm $brightnessctl_savefile; systemctl suspend; }" \
         before-sleep "$locker" \
         lock "$locker" &
     idle_pid=$!

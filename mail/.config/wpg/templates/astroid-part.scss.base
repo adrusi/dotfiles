@@ -1,0 +1,8 @@
+/* ui-version: 5 (do not change when modifying theme for yourself) */
+
+$font-base-size: {fontmonosize}pt;
+$font-mono: "{fontmono}";
+$font-sans: "{fontui}";
+$font-family-default: $font-sans;
+
+@import "/usr/share/astroid/ui/part.scss";

@@ -1,0 +1,14 @@
+# Set default values for all following accounts.
+defaults
+auth           on
+tls            on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+logfile        ~/.log/msmtp/msmtp.log
+
+# Gmail
+account        adrusi
+host           smtp.gmail.com
+port           587
+from           adrian@adrusi.com
+user           adrian@adrusi.com
+passwordeval   "bw get password 0b5c9f6b-b146-4fcf-afaf-aa690018e2ba"

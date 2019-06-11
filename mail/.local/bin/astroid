@@ -1,0 +1,10 @@
+#!/bin/sh
+success=1
+while [ $success != 0 ]; do
+    master_password="$(zenity --title="Bitwarden Password Prompt" --text="Bitwarden master password:" --password)"
+    BW_SESSION="$(bw unlock --raw -- "$master_password")"
+    success=$?
+    export BW_SESSION
+done
+
+exec /usr/bin/astroid
